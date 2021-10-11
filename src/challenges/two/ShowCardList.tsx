@@ -27,8 +27,8 @@ export default function ShowCardList({
   if (isLoading) {
     return (
       <VStack spacing={4} mt={6}>
-        {Array.from(Array(loadingCards).keys()).map(() => (
-          <ShowCardLoading />
+        {Array.from(Array(loadingCards).keys()).map((key) => (
+          <ShowCardLoading key={key} />
         ))}
       </VStack>
     );

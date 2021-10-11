@@ -52,8 +52,6 @@ export default function Two() {
     getShows(searchValue);
   }, [searchValue]);
 
-  console.log(searchValue);
-
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
   }
