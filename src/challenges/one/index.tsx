@@ -11,7 +11,7 @@ function useMouseLocation(ref: React.RefObject<HTMLElement>) {
         setLocation({ x, y });
       };
     }
-  }, [ref?.current]);
+  }, [ref]);
 
   return location;
 }
