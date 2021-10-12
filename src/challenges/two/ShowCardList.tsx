@@ -44,8 +44,8 @@ export default function ShowCardList({
 
   return (
     <VStack spacing={4} mt={6}>
-      {shows.map((show, key) => (
-        <ShowCard key={`show-${key}`} show={show} />
+      {shows.map((show) => (
+        <ShowCard key={show.show.id} show={show} />
       ))}
     </VStack>
   );
