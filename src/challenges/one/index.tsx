@@ -6,9 +6,24 @@ function useMouseLocation(ref: React.RefObject<HTMLElement>) {
   useEffect(() => {
     if (ref.current) {
       ref.current.onmousemove = (ev) => {
-        const x = ev.pageX - (ref?.current?.offsetLeft || 0);
-        const y = ev.pageY - (ref?.current?.offsetTop || 0);
-        setLocation({ x, y });
+        const offsetLeft = ref?.current?.offsetLeft || 0;
+        const offsetTop = ref?.current?.offsetTop || 0;
+        const clientWidth = ref?.current?.clientWidth || 0;
+        const clientHeight = ref?.current?.clientHeight || 0;
+        const x = ev.pageX - offsetLeft;
+        const y = ev.pageY - offsetTop;
+        // Manual checking if inbound to prevent issue of the position
+        // updating even outside of the element when cursor is
+        // exiting at the bottom of the element.
+        // This issue also exists on the demo app.
+        if (
+          ev.pageX >= offsetLeft &&
+          ev.pageX <= offsetLeft + clientWidth &&
+          ev.pageY >= offsetTop &&
+          ev.pageY <= offsetTop + clientHeight
+        ) {
+          setLocation({ x, y });
+        }
       };
     }
   }, [ref]);
