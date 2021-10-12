@@ -1,7 +1,7 @@
 import { Button, HStack, Text } from "@chakra-ui/react";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-function useCountdownTimer() {
+function useTimer() {
   const [running, setRunning] = useState(false);
   const [time, setTime] = useState(0);
 
@@ -29,7 +29,7 @@ function useCountdownTimer() {
   return { time, running, start, pause, reset };
 }
 
-type Countdown = {
+type TimerType = {
   time: number;
   running: boolean;
   start: () => void;
@@ -45,23 +45,21 @@ const initialContextValue = {
   reset: () => null
 };
 
-const CountdownProvider = createContext<Countdown>(initialContextValue);
+const TimerContext = createContext<TimerType>(initialContextValue);
 
 type TimerProps = {
   children: JSX.Element;
 };
 
 export default function Timer({ children }: TimerProps) {
-  const countdown = useCountdownTimer();
+  const countdown = useTimer();
   return (
-    <CountdownProvider.Provider value={countdown}>
-      {children}
-    </CountdownProvider.Provider>
+    <TimerContext.Provider value={countdown}>{children}</TimerContext.Provider>
   );
 }
 
 export function TimerDisplay() {
-  const { time } = useContext(CountdownProvider);
+  const { time } = useContext(TimerContext);
   const [timerText, setTimerText] = useState("0:00:0");
 
   useEffect(() => {
@@ -89,7 +87,7 @@ export function TimerDisplay() {
 }
 
 export function TimerControls() {
-  const { time, start, pause, reset, running } = useContext(CountdownProvider);
+  const { time, start, pause, reset, running } = useContext(TimerContext);
   return (
     <HStack>
       {running ? (
